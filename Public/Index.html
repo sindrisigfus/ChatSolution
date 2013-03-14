@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html ng-app>
+	<head>
+	</head>
+	<body>
+		<div ng-controller="IndexController">
+			<h2>{{title}}</h2>
+
+			<ul ng-repeat="todo in todos">
+				<li>{{ todo.title}}</li>	
+			</ul>
+
+			<span>{{currentDate}}</span>
+		</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+	<script src="js/App.js"></script>
+	<script src="js/IndexController.js"></script>
+	</body>
+
+</html>

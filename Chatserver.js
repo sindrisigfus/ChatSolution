@@ -6,7 +6,7 @@ var express = require("express"),
     port = parseInt(process.env.PORT, 10) || 8000;
     
 app.get("/", function(req, res) {
-  res.redirect("/indexnew.html");
+  res.redirect("/index.html");
 });
 
 var server = http.createServer(function(request, response){
@@ -14,8 +14,8 @@ var server = http.createServer(function(request, response){
 	var pathname = url.parse( request.url ).pathname;
 	if (regex.test(pathname)){
 		response.writeHead( 200, {"content-type": "text/html"});
-		fs.readFile("./indexnew.html", function(err, data){ 
-			response.write(data);
+		fs.readFile("./index.html", function(err, data){ 
+		 	response.write(data);
 			response.end( );
 		});		
 
@@ -37,11 +37,12 @@ app.configure(function(){
     showStack: true
   }));
   app.use(app.router);
-});
+});	
 
 app.listen(port);
 
 var myGlobalData = {
 	rooms: [],
 };
+
 //app.get()

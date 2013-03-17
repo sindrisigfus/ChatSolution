@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 
-<html ng-app>
+<html ng-app="ChatApp">
 	<head>
 
 	<link rel="stylesheet" type="text/css" href="css/default.css">	
 	</head>
 	<body>
-		<div ng-controller="IndexController">
-			<h2>{{title}}</h2>
-
-
-
-		<div id="menu">
-				<ul ng-repeat="todo in todos">
-					<li ><a href="">{{ todo.title}} </a></li>	
-				</ul>
+		
+		<div ng-view> </div> 
+		<div ng-controller = "IndexController">
+			<h2> {{ name }}</h2>
 		</div>
-	
-			<span>{{currentDate |  date: "dd MMM yyyy"}}</span>
-		</div>
+		<h2>kalli bjarni elskar að fá sér í nefið</h2>
+	<script src="http://localhost:8234/socket.io/socket.io.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
 	<script src="js/App.js"></script>
 	<script src="js/IndexController.js"></script>
+	<script src="js/RoomController.js"></script>
+	<script src="js/LoginController.js"></script>
 	</body>
 
 </html>

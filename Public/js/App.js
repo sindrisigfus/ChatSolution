@@ -1,8 +1,9 @@
 var app = angular.module( 'ChatApp', []);
+var socket = io.connect('http://localhost::8234');
 
 app.config( function ( $routeProvider ) {
-  $routeProvider.when( '/', {templateUrl: 'templates/Login.html', controller: 'LoginController'}).
-                 when( '/home', {templateUrl: 'index.html', controller: 'IndexController'}).
-                 when( '/rooms/:id', {templateUrl: 'templates/rooms.html', controller: 'RoomController'}).
-                 otherwise({redirectTo: '/'});
+  $routeProvider.when( '/login', {templateUrl: '/templates/Login.html', controller: 'LoginController'}).
+                 when( '/home', {templateUrl: '/templates/Home.html', controller: 'IndexController'}).
+                 when( '/rooms', {templateUrl: '/templates/rooms.html', controller: 'RoomController'}).
+                 otherwise({redirectTo: '/login'});
 });

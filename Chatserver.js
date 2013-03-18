@@ -45,7 +45,9 @@ app.configure(function(){
 
 app.listen(port);
 
-var roomList = [];
+var roomid = 0;
+
+var roomList = [{ id: roomid, name: "MainRoom", userList:[] , op: ""}];
 
 var nameList = [];
 //-----------------------------------------------
@@ -57,24 +59,7 @@ server.listen(8234);
 
 
 
-io.sockets.on('connection', function (socket) {
-    socket.on('set nickname', function (name) {
-      socket.set('nickname', name, function () {
-       nick = name;
-       nameList.push(nick);
-       socket.emit('ready'); 
-        socket.broadcast.emit(nick);
-     });
-  
-      socket.on('ferret', function (name, fn) {
-         fn('woot');
-      });  
-  
-     socket.on('getNames', function (name, fn) {
-         fn(nameList);
-     }); 
-
-    });
+io.sockets.on('connection', function (socket) {    
 
    // validate a user's name change, and broadcast it on success
    socket.on('set:name', function (name) {  
@@ -85,25 +70,46 @@ io.sockets.on('connection', function (socket) {
 
      nameList.push(nick);  
   });
-    socket.on('create:room', function (room){
-      console.log("------create room falllið");
-      socket.emit('create:room', room);
-      roomList.push(room);
-    });
-    socket.on('getRooms', function (room, fn) {
-         fn(roomList);
-     });
-  socket.on('msg', function (message) {
-    socket.get('nickname', function (err, name) {
-      socket.set('msg' , message);
-      console.log('Chat message by ', name , 'the message' , message );
-    });
 
-        socket.on('recieveNick', function (name, fen) {
-        fen(nick);
-    });
+  socket.on('create:room', function (roomname, opname){
+      
+      var room = { id: ++roomid, name: roomname, userList:[] , op: opname}
+      roomList.push(room);
+    
+      socket.broadcast.emit('getRooms', roomList);
+      socket.emit('getRooms', roomList);
+      
+
+      for(var i in roomList){
+        console.log(roomList[i].id, roomList[i].name ,roomList[i].op);
+      }
   });
 
+  socket.on('getRooms', function () {
+      console.log("GETROOMS----------");
+      socket.emit('getRooms', roomList);
+      socket.broadcast.emit('getRooms', roomList);
+  });
+
+  socket.on('getRoomById', function(id){
+
+    console.log("Get room by id ---------------------------------------------------------------------");
+      for(var i = 0 ; i < roomList.length ; i++){
+        if(roomList[i].id == id){    
+          socket.emit('getRoomById', roomList[i]);
+          break;
+        }    
+      }
+
+  });
+
+
+
+  socket.on('getRooms', function () {
+      console.log("GETROOMS----------");
+      socket.emit('getRooms', roomList);
+      socket.broadcast.emit('getRooms', roomList);
+  });
 
 
 

@@ -45,9 +45,7 @@ app.configure(function(){
 
 app.listen(port);
 
-var myGlobalData = {
-  rooms: [],
-};
+var roomList = [];
 
 var nameList = [];
 //-----------------------------------------------
@@ -87,7 +85,14 @@ io.sockets.on('connection', function (socket) {
 
      nameList.push(nick);  
   });
-
+    socket.on('create:room', function (room){
+      console.log("------create room falllið");
+      socket.emit('create:room', room);
+      roomList.push(room);
+    });
+    socket.on('getRooms', function (room, fn) {
+         fn(roomList);
+     });
   socket.on('msg', function (message) {
     socket.get('nickname', function (err, name) {
       socket.set('msg' , message);

@@ -15,7 +15,7 @@ app.controller('IndexController', ['$scope','sharedProperties', function ( $scop
     }); 
 
     for(var i in $scope.roomList){
-      console.log($scope.roomList[i]);
+     // console.log($scope.roomList[i]);
     }
 
   });

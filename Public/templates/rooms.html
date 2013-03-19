@@ -7,9 +7,9 @@
 </br>
 </br>
 <li> Operator : {{Room.op}} </li>
-<li> notandi Ivar </li>
-<li> notandi sindri </li>
-
+<ul ng-repeat="user in UserList" >
+	<li> {{ user }} </li>
+</ul>
 
 </ul>
 </div>
@@ -41,7 +41,11 @@
 </br>
 <div id = "sentmessages" class= "sentmessages" >
 
-<input type="text" id="inputSentMessages" />
-<button type="button">Sent Message  </button>
+
+<form>
+<input type="text" id="inputSentMessages" ng-model="Input" />
+<button type="submit"  ng-click="sendMessage()">Sent Message </button>
+</form>
+
 
 </div>

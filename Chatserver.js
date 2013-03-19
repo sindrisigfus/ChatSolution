@@ -73,7 +73,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('create:room', function (roomname, opname){
       
-      var room = { id: ++roomid, name: roomname, userList:[] , op: opname}
+      var room = { id: ++roomid, name: roomname, userList:["SindriSindri","DúddiMagg","Frikki Dór"] , op: opname}
       roomList.push(room);
     
       socket.broadcast.emit('getRooms', roomList);
@@ -103,19 +103,45 @@ io.sockets.on('connection', function (socket) {
 
   });
 
-
-
   socket.on('getRooms', function () {
       console.log("GETROOMS----------");
       socket.emit('getRooms', roomList);
       socket.broadcast.emit('getRooms', roomList);
   });
 
+  socket.on('message', function(messageText, roomId){
+    console.log(messageText);
+    socket.in(roomId).broadcast.emit('updateBoard', messageText);
+    socket.in(roomId).emit('updateBoard', messageText);
+  });
+
+/*  socket.on('getUsers' , function(room){
+
+    socket.in(room.id).broadcast.emit('updateBoard', messageText);
+    socket.in(room.id).emit('updateBoard', messageText);
+  });*/
+  
+
+// once a client has connected, we expect to get a ping from them saying what room they want to join
+  socket.on('room', function(roomId, user) {
+    roomList[roomId].userList.push(user);
+    socket.emit('updatUserList', roomList[roomId].userList);
+    socket.join(roomId);    
+  });
+
+ /*
+// now, it's easy to send a message to just the clients in a given room
+room = "abc123";
+io.sockets.in(room).emit('message', 'what is going on, party people?');
+ 
+// this message will NOT go to the client defined above
+io.sockets.in('foobar').emit('message', 'anyone in this room yet?');
 
 
-
-
+*/
 });
+
+
 
 
 //-----------------------------------------------
